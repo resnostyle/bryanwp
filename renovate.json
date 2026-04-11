@@ -1,0 +1,13 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "rangeStrategy": "bump",
+  "packageRules": [
+    {
+      "description": "One PR for all Dockerfile base image updates",
+      "matchFileNames": ["Dockerfile"],
+      "matchDatasources": ["docker"],
+      "groupName": "dockerfile base images"
+    }
+  ]
+}
