@@ -1,0 +1,65 @@
+---
+import '../styles/global.css';
+import GradientBackdrop from '../components/GradientBackdrop.astro';
+
+interface Props {
+	title: string;
+	description?: string;
+	/** Origin only, e.g. https://bryanwp.com — used for canonical + Open Graph */
+	siteUrl?: string;
+	/** Path for this page’s canonical URL (include leading slash; use trailing slash for this site) */
+	canonicalPath?: string;
+	noindex?: boolean;
+}
+
+const { title, description, siteUrl, canonicalPath = '/', noindex = false } = Astro.props;
+
+const origin = siteUrl?.replace(/\/$/, '') ?? '';
+const canonical =
+	origin && canonicalPath && !noindex
+		? `${origin}${canonicalPath.startsWith('/') ? canonicalPath : `/${canonicalPath}`}`
+		: undefined;
+let siteHost: string | undefined;
+try {
+	siteHost = siteUrl ? new URL(siteUrl).hostname : undefined;
+} catch {
+	siteHost = undefined;
+}
+const ogPageUrl = !noindex ? (canonical ?? origin) : undefined;
+---
+
+<!doctype html>
+<html lang="en" class="dark">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" sizes="any" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="color-scheme" content="dark" />
+		<meta name="theme-color" content="#0f172a" />
+		<meta name="author" content="B Pearson" />
+		{description && <meta name="description" content={description} />}
+		{noindex && <meta name="robots" content="noindex, nofollow" />}
+		{canonical && <link rel="canonical" href={canonical} />}
+		{origin && (
+			<>
+				<meta property="og:type" content="website" />
+				{siteHost && <meta property="og:site_name" content={siteHost} />}
+				<meta property="og:locale" content="en_US" />
+				<meta property="og:title" content={title} />
+				{description && <meta property="og:description" content={description} />}
+				{ogPageUrl && <meta property="og:url" content={ogPageUrl} />}
+				<meta name="twitter:card" content="summary" />
+				<meta name="twitter:title" content={title} />
+				{description && <meta name="twitter:description" content={description} />}
+			</>
+		)}
+		<title>{title}</title>
+	</head>
+	<body
+		class="relative min-h-dvh overflow-x-hidden bg-slate-950 antialiased text-slate-100 selection:bg-blue-500/40 selection:text-white"
+	>
+		<GradientBackdrop />
+		<slot />
+	</body>
+</html>

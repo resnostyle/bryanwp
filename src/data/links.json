@@ -1,0 +1,24 @@
+{
+	"title": "B Pearson",
+	"description": "bryanwp.com — personal site & links.",
+	"siteUrl": "https://bryanwp.com",
+	"links": [
+		{
+			"label": "GitHub",
+			"url": "https://github.com/resnostyle",
+			"slug": "github",
+			"icon": "github"
+		},
+		{
+			"label": "LinkedIn",
+			"url": "https://www.linkedin.com/in/bryanwp/",
+			"slug": "linkedin",
+			"icon": "linkedin"
+		},
+		{
+			"label": "Website",
+			"url": "https://bryanwp.com",
+			"slug": "site"
+		}
+	]
+}

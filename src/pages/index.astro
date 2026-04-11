@@ -1,0 +1,65 @@
+---
+import BrandMark from '../components/BrandMark.astro';
+import LinkIcon from '../components/LinkIcon.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import linksData from '../data/links.json';
+import { getBrandStyle } from '../lib/link-brand';
+import type { LinksData } from '../types/links';
+
+const data = linksData as LinksData;
+---
+
+<BaseLayout
+	title={data.title}
+	description={data.description}
+	siteUrl={data.siteUrl}
+	canonicalPath="/"
+>
+	<main class="relative mx-auto flex min-h-dvh max-w-md flex-col justify-center px-4 py-14 sm:py-16">
+		<header class="mb-12 flex flex-col items-center text-center">
+			<BrandMark class="mb-5" />
+			<h1 class="text-3xl font-bold tracking-tight text-slate-100 sm:text-4xl">
+				{data.title}
+			</h1>
+			{data.description && (
+				<p class="mx-auto mt-3 max-w-sm text-sm leading-relaxed text-slate-500">
+					{data.description}
+				</p>
+			)}
+		</header>
+		<ul class="flex flex-col gap-2.5" role="list">
+			{
+				data.links.map((link) => {
+					const style = getBrandStyle(link.icon);
+					return (
+						<li>
+							<a
+								href={`/go/${link.slug}/`}
+								target="_blank"
+								rel="noopener noreferrer"
+								class:list={[
+									'group flex w-full items-center gap-3 rounded-lg border border-slate-800 bg-slate-900/80 px-3 py-3 text-left text-base font-medium text-slate-200',
+									'border-l-4 border-l-transparent',
+									'transition-colors duration-150',
+									'hover:border-slate-700 hover:bg-slate-800/90 hover:text-white',
+									'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950',
+									style.stripe,
+								]}
+							>
+								<span
+									class:list={[
+										'flex h-11 w-11 shrink-0 items-center justify-center rounded-md transition-colors duration-150',
+										style.well,
+									]}
+								>
+									<LinkIcon name={link.icon} class="h-6 w-6" />
+								</span>
+								<span class="min-w-0 flex-1">{link.label}</span>
+							</a>
+						</li>
+					);
+				})
+			}
+		</ul>
+	</main>
+</BaseLayout>

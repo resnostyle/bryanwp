@@ -1,0 +1,59 @@
+---
+import GradientBackdrop from '../../components/GradientBackdrop.astro';
+import '../../styles/global.css';
+import linksData from '../../data/links.json';
+import type { LinksData } from '../../types/links';
+
+const data = linksData as LinksData;
+
+export function getStaticPaths() {
+	const site = linksData as LinksData;
+	return site.links.map((link) => ({
+		params: { slug: link.slug },
+		props: {
+			destination: link.url,
+			label: link.label,
+		},
+	}));
+}
+
+interface Props {
+	destination: string;
+	label: string;
+}
+
+const { destination, label } = Astro.props as Props;
+const { title } = data;
+---
+
+<!doctype html>
+<html lang="en" class="dark">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="color-scheme" content="dark" />
+		<meta name="theme-color" content="#0f172a" />
+		<meta name="robots" content="noindex" />
+		<meta http-equiv="refresh" content={`0;url=${destination}`} />
+		<title>Redirect — {title}</title>
+	</head>
+	<body
+		class="relative min-h-dvh overflow-x-hidden bg-slate-950 antialiased text-slate-100 selection:bg-blue-500/40 selection:text-white"
+	>
+		<GradientBackdrop />
+		<main class="mx-auto flex min-h-dvh max-w-md flex-col justify-center px-4 py-12 text-center">
+			<p class="text-slate-500">
+				Redirecting to{' '}
+				<a
+					href={destination}
+					target="_blank"
+					rel="noopener noreferrer"
+					class="font-medium text-blue-400 underline decoration-blue-500/40 underline-offset-2 transition-colors hover:text-blue-300"
+				>
+					{label}
+				</a>
+				…
+			</p>
+		</main>
+	</body>
+</html>

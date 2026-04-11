@@ -1,0 +1,31 @@
+---
+/**
+ * Header mark — flat; matches public/favicon.svg.
+ */
+interface Props {
+	class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+<svg
+	class:list={['h-14 w-14 shrink-0 sm:h-16 sm:w-16', className]}
+	viewBox="0 0 128 128"
+	fill="none"
+	xmlns="http://www.w3.org/2000/svg"
+	role="img"
+	aria-hidden="true"
+>
+	<rect width="128" height="128" rx="12" fill="#2563eb" />
+	<text
+		x="64"
+		y="86"
+		text-anchor="middle"
+		font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif"
+		font-size="68"
+		font-weight="700"
+		fill="#ffffff"
+		letter-spacing="-0.02em"
+	>B</text>
+</svg>

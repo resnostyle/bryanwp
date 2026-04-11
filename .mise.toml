@@ -1,0 +1,43 @@
+[tools]
+node = "24.13.0"
+
+# Run with: `mise run <task>` or `mise <task>` (e.g. `mise dev`, `mise build`)
+
+[tasks.install]
+description = "Install dependencies from lockfile (npm ci)"
+run = "npm ci"
+
+[tasks.dev]
+description = "Start Astro dev server"
+run = "npm run dev"
+alias = "d"
+
+[tasks.build]
+description = "Production build to dist/"
+run = "npm run build"
+alias = "b"
+
+[tasks.preview]
+description = "Serve dist/ locally (runs build first)"
+depends = ["build"]
+run = "npm run preview"
+
+[tasks.clean]
+description = "Remove build output (dist/, .astro/)"
+run = "rm -rf dist .astro"
+
+[tasks.ci]
+description = "Same as CI: locked install + build"
+run = ["npm ci", "npm run build"]
+
+[tasks.docker-build]
+description = "Build NGINX image (linkpage:latest)"
+run = "docker build -t linkpage:latest ."
+
+[tasks.docker-run]
+description = "Run linkpage:latest on http://localhost:8080 (build first if needed)"
+run = "docker run --rm -p 8080:80 linkpage:latest"
+
+[tasks.docker]
+description = "Build image and run container on :8080"
+run = ["docker build -t linkpage:latest .", "docker run --rm -p 8080:80 linkpage:latest"]
