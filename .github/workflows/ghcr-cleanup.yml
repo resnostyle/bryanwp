@@ -1,0 +1,40 @@
+name: GHCR cleanup
+
+# Prunes old container versions for this repo’s GHCR package.
+# Requires: Package settings → “Manage Actions access” → allow this repo (read/write)
+# so GITHUB_TOKEN can delete versions.
+
+on:
+  schedule:
+    - cron: '23 6 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: ghcr-cleanup
+  cancel-in-progress: false
+
+jobs:
+  prune:
+    runs-on: ubuntu-latest
+    steps:
+      # Retagged builds often leave extra untagged digests; safe to trim.
+      - name: Prune untagged versions (keep a few newest)
+        uses: actions/delete-package-versions@v5
+        with:
+          package-name: ${{ github.event.repository.name }}
+          package-type: container
+          delete-only-untagged-versions: 'true'
+          min-versions-to-keep: 1
+
+      # Drop older digests; keep N newest versions. Protected names are not deleted.
+      - name: Prune old versions (keep recent + protected tags)
+        uses: actions/delete-package-versions@v5
+        with:
+          package-name: ${{ github.event.repository.name }}
+          package-type: container
+          min-versions-to-keep: 3
+          ignore-versions: '^(latest|(\d+\.\d+\.\d+(-[0-9A-Za-z.-]+)?)|(\d+\.\d+))$'
