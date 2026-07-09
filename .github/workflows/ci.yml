@@ -22,6 +22,9 @@ jobs:
           mise install
           mise exec -- npm ci
 
+      - name: Typecheck
+        run: mise exec -- npm run check
+
       - name: Build
         run: mise exec -- npm run build
 

@@ -1,6 +1,8 @@
 {
-	"title": "B Pearson",
-	"description": "bryanwp.com — personal site & links.",
+	"title": "Bryan Pearson",
+	"tagline": "DevOps & SRE · keeping systems running",
+	"description": "Personal links for Bryan Pearson — infrastructure, work, and contact.",
+	"author": "Bryan Pearson",
 	"siteUrl": "https://bryanwp.com",
 	"links": [
 		{
@@ -14,11 +16,6 @@
 			"url": "https://www.linkedin.com/in/bryanwp/",
 			"slug": "linkedin",
 			"icon": "linkedin"
-		},
-		{
-			"label": "Website",
-			"url": "https://bryanwp.com",
-			"slug": "site"
 		}
 	]
 }

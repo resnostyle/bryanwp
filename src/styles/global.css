@@ -1,9 +1,32 @@
 @import "tailwindcss";
 
+@theme {
+	--font-display: 'Syne', ui-sans-serif, system-ui, sans-serif;
+	--font-body: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+}
+
 @layer base {
 	html {
 		color-scheme: dark;
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
+	}
+
+	body {
+		font-family: var(--font-body);
+	}
+}
+
+@layer components {
+	.btn-secondary {
+		@apply inline-flex items-center justify-center border-2 border-stone-700 bg-transparent px-6 py-3 font-display text-sm font-bold uppercase tracking-widest text-stone-100 transition-colors duration-200;
+		@apply hover:border-amber-500 hover:text-amber-400;
+		@apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/80 focus-visible:ring-offset-2 focus-visible:ring-offset-stone-950;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.btn-secondary {
+		transition-duration: 0.01ms !important;
 	}
 }

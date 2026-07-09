@@ -3,63 +3,83 @@ import BrandMark from '../components/BrandMark.astro';
 import LinkIcon from '../components/LinkIcon.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import linksData from '../data/links.json';
-import { getBrandStyle } from '../lib/link-brand';
+import { getLinkAccent } from '../lib/link-brand';
 import type { LinksData } from '../types/links';
 
 const data = linksData as LinksData;
+const nameParts = data.title.trim().split(/\s+/);
+const firstName = nameParts[0] ?? data.title;
+const lastName = nameParts.slice(1).join(' ');
 ---
 
 <BaseLayout
 	title={data.title}
 	description={data.description}
+	author={data.author}
 	siteUrl={data.siteUrl}
 	canonicalPath="/"
 >
-	<main class="relative mx-auto flex min-h-dvh max-w-md flex-col justify-center px-4 py-14 sm:py-16">
-		<header class="mb-12 flex flex-col items-center text-center">
-			<BrandMark class="mb-5" />
-			<h1 class="text-3xl font-bold tracking-tight text-slate-100 sm:text-4xl">
-				{data.title}
+	<main class="relative mx-auto flex min-h-dvh max-w-lg flex-col justify-center px-6 py-20 sm:px-8 sm:py-24">
+		<header class="mb-16">
+			<BrandMark class="mb-8" />
+			<h1
+				class="font-display text-[clamp(2.25rem,7vw,3.5rem)] font-bold leading-snug tracking-normal text-stone-50"
+			>
+				{firstName}
+				{lastName && (
+					<>
+						{' '}
+						<span class="text-amber-400">{lastName}</span>
+					</>
+				)}
 			</h1>
-			{data.description && (
-				<p class="mx-auto mt-3 max-w-sm text-sm leading-relaxed text-slate-500">
-					{data.description}
-				</p>
-			)}
+			<p class="mt-6 max-w-md text-lg leading-relaxed text-stone-400">{data.tagline}</p>
+			<div class="mt-10 h-1 w-16 bg-amber-500" aria-hidden="true"></div>
 		</header>
-		<ul class="flex flex-col gap-2.5" role="list">
-			{
-				data.links.map((link) => {
-					const style = getBrandStyle(link.icon);
-					return (
-						<li>
-							<a
-								href={`/go/${link.slug}/`}
-								target="_blank"
-								rel="noopener noreferrer"
-								class:list={[
-									'group flex w-full items-center gap-3 rounded-lg border border-slate-800 bg-slate-900/80 px-3 py-3 text-left text-base font-medium text-slate-200',
-									'border-l-4 border-l-transparent',
-									'transition-colors duration-150',
-									'hover:border-slate-700 hover:bg-slate-800/90 hover:text-white',
-									'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950',
-									style.stripe,
-								]}
-							>
-								<span
+
+		<nav aria-label="External links">
+			<ul role="list">
+				{
+					data.links.map((link) => {
+						const accent = getLinkAccent(link.icon);
+						return (
+							<li>
+								<a
+									href={`/go/${link.slug}/`}
+									target="_blank"
+									rel="noopener noreferrer"
 									class:list={[
-										'flex h-11 w-11 shrink-0 items-center justify-center rounded-md transition-colors duration-150',
-										style.well,
+										'group flex w-full items-center gap-4 border-b border-stone-800 py-5 text-left transition-colors duration-200 motion-reduce:transition-none',
+										'hover:border-amber-500/50 focus-visible:outline-none focus-visible:border-amber-500',
 									]}
 								>
-									<LinkIcon name={link.icon} class="h-6 w-6" />
-								</span>
-								<span class="min-w-0 flex-1">{link.label}</span>
-							</a>
-						</li>
-					);
-				})
-			}
-		</ul>
+									<span class:list={['flex h-6 w-6 shrink-0 items-center justify-center', accent]}>
+										<LinkIcon name={link.icon} class="h-5 w-5" />
+									</span>
+									<span
+										class="min-w-0 flex-1 font-display text-xl font-bold tracking-tight text-stone-100 transition-colors duration-200 motion-reduce:transition-none sm:text-2xl group-hover:text-white group-focus-visible:text-white"
+									>
+										{link.label}
+									</span>
+									<svg
+										class="h-5 w-5 shrink-0 text-stone-600 transition-all duration-200 motion-reduce:transition-none motion-reduce:transform-none group-hover:translate-x-1 group-hover:text-amber-400 group-focus-visible:translate-x-1 group-focus-visible:text-amber-400"
+										viewBox="0 0 24 24"
+										fill="none"
+										stroke="currentColor"
+										stroke-width="2"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										aria-hidden="true"
+									>
+										<path d="M7 17L17 7"></path>
+										<path d="M7 7h10v10"></path>
+									</svg>
+								</a>
+							</li>
+						);
+					})
+				}
+			</ul>
+		</nav>
 	</main>
 </BaseLayout>
