@@ -27,8 +27,8 @@ description = "Remove build output (dist/, .astro/)"
 run = "rm -rf dist .astro"
 
 [tasks.ci]
-description = "Same as CI: locked install + build"
-run = ["npm ci", "npm run build"]
+description = "Same as CI: locked install + check + build"
+run = ["npm ci", "npm run check", "npm run build"]
 
 [tasks.docker-build]
 description = "Build NGINX image (linkpage:latest)"

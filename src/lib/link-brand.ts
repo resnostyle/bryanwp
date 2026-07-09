@@ -1,36 +1,18 @@
 /**
- * Flat tiles: left stripe on row + icon cell tint.
+ * Icon accent color per platform — kept minimal for editorial link rows.
  */
-export interface BrandStyle {
-	stripe: string;
-	/** Icon container (flat fill + icon color) */
-	well: string;
-}
-
-export function getBrandStyle(icon?: string): BrandStyle {
+export function getLinkAccent(icon?: string): string {
 	switch (icon?.toLowerCase() ?? '') {
 		case 'github':
-			return {
-				stripe: 'border-l-neutral-500 group-hover:border-l-neutral-300',
-				well: 'bg-slate-800 text-white',
-			};
+			return 'text-stone-300 group-hover:text-white';
 		case 'linkedin':
-			return {
-				stripe: 'border-l-[#0A66C2] group-hover:border-l-[#3b9eff]',
-				well: 'bg-slate-800 text-[#7dd3fc]',
-			};
+			return 'text-[#5eb3ff] group-hover:text-[#8ecfff]';
 		case 'blog':
 		case 'rss':
 		case 'medium':
 		case 'writing':
-			return {
-				stripe: 'border-l-amber-500 group-hover:border-l-amber-400',
-				well: 'bg-slate-800 text-amber-200',
-			};
+			return 'text-amber-400 group-hover:text-amber-300';
 		default:
-			return {
-				stripe: 'border-l-sky-500 group-hover:border-l-sky-400',
-				well: 'bg-slate-800 text-sky-300',
-			};
+			return 'text-amber-400/90 group-hover:text-amber-300';
 	}
 }

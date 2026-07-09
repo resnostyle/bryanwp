@@ -1,0 +1,61 @@
+---
+import PageBackdrop from '../components/PageBackdrop.astro';
+import '../styles/global.css';
+
+interface Props {
+	pageTitle: string;
+	destination: string;
+	label: string;
+}
+
+const { pageTitle, destination, label } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" class="dark">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500&family=Syne:wght@600;700&display=swap"
+			rel="stylesheet"
+		/>
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" sizes="any" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="color-scheme" content="dark" />
+		<meta name="theme-color" content="#0c0a09" />
+		<meta name="robots" content="noindex, nofollow" />
+		<title>{pageTitle}</title>
+		<script is:inline define:vars={{ destination }}>
+			location.replace(destination);
+		</script>
+		<noscript>
+			<meta http-equiv="refresh" content={`0;url=${destination}`} />
+		</noscript>
+	</head>
+	<body
+		class="relative min-h-dvh overflow-x-hidden bg-stone-950 text-stone-100 antialiased selection:bg-amber-500/30 selection:text-white"
+	>
+		<PageBackdrop />
+		<main class="mx-auto flex min-h-dvh max-w-lg flex-col items-start justify-center gap-6 px-6 py-20 sm:px-8">
+			<div
+				class="h-8 w-8 animate-spin rounded-full border-2 border-stone-700 border-t-amber-500 motion-reduce:animate-none"
+				aria-hidden="true"
+			></div>
+			<p class="text-lg text-stone-400">
+				Opening{' '}
+				<a
+					href={destination}
+					target="_blank"
+					rel="noopener noreferrer"
+					class="font-medium text-amber-400 underline decoration-amber-500/40 underline-offset-4 transition-colors hover:text-amber-300"
+				>
+					{label}
+				</a>
+				…
+			</p>
+		</main>
+	</body>
+</html>
